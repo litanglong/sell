@@ -112,8 +112,8 @@ public class OrderServiceImpl implements OrderService {
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
 
-        OrderMaster orderMaster = new OrderMaster();
         orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
+        OrderMaster orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderMaster, orderDTO);
         OrderMaster updateResult = orderMasterRepository.save(orderMaster);
         if (updateResult == null) {
@@ -146,6 +146,39 @@ public class OrderServiceImpl implements OrderService {
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
 
-        return null;
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISH.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderMaster, orderDTO);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+        if (updateResult == null) {
+            log.error("【完结订单】更新失败, orderMaster={}", orderMaster);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+        }
+
+        return orderDTO;
+    }
+
+    @Override
+    @Transactional
+    public OrderDTO paid(OrderDTO orderDTO) {
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+            log.error("【支付订单】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        if (!orderDTO.getPayStatus().equals(PayStatusEnum.WAIT.getCode())) {
+            log.error("【支付订单】支付状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.PAY_STATUS_ERROR);
+        }
+
+        orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderMaster, orderDTO);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+        if (updateResult == null) {
+            log.error("【支付订单】更新失败, orderMaster={}", orderMaster);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+        }
+        return orderDTO;
     }
 }
