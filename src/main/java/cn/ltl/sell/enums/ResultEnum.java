@@ -7,7 +7,9 @@ public enum ResultEnum {
     ORDERDETAIL_NOT_EXIST(13, "订单不存在"),
     ORDER_STATUS_ERROR(14, "订单状态不正确"),
     ORDER_UPDATE_FAIL(15, "订单更新失败"),
-    PAY_STATUS_ERROR(16, "订单状态不正确");
+    PAY_STATUS_ERROR(16, "订单状态不正确"),
+    PARAM_ERROR(17, "参数错误"),
+    CART_EMPTY(18, "购物车为空");
 
 
     private Integer code;

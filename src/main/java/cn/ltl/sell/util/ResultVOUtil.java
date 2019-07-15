@@ -17,10 +17,14 @@ public class ResultVOUtil {
         return resultVO;
     }
 
-    public static ResultVO error (String msg) {
+    public static ResultVO error (Integer code, String msg) {
         ResultVO resultVO = new ResultVO();
-        resultVO.setCode(1);
+        resultVO.setCode(code);
         resultVO.setMsg(msg);
         return resultVO;
+    }
+
+    public static ResultVO error (String msg) {
+        return error(1, msg);
     }
 }
