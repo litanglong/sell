@@ -13,7 +13,7 @@ public class SellException extends RuntimeException {
 
     public SellException(Integer code, String message) {
         super(message);
-        this.code = resultEnum.getCode();
+        this.code = code;
     }
 
     public ResultEnum getResultEnum() {

@@ -66,9 +66,9 @@ public class OrderServiceImpl implements OrderService {
         }
         //创建订单
         OrderMaster orderMaster = new OrderMaster();
-        orderMaster.setOrderId(orderId);
+        orderDTO.setOrderId(orderId);
+        orderDTO.setOrderAmount(orderAmount);
         BeanUtils.copyProperties(orderDTO, orderMaster);
-        orderMaster.setOrderAmount(orderAmount);
         orderMasterRepository.save(orderMaster);
         //扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream().map(e ->
@@ -107,14 +107,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDTO cancel(OrderDTO orderDTO) {
-        if (orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
             log.error("【取消订单】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
 
         orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
         OrderMaster orderMaster = new OrderMaster();
-        BeanUtils.copyProperties(orderMaster, orderDTO);
+        BeanUtils.copyProperties(orderDTO, orderMaster);
         OrderMaster updateResult = orderMasterRepository.save(orderMaster);
         if (updateResult == null) {
             log.error("【取消订单】更新失败, orderMaster={}", orderMaster);
