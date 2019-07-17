@@ -1,5 +1,6 @@
 package cn.ltl.sell.controller;
 
+import cn.ltl.sell.enums.ResultEnum;
 import cn.ltl.sell.exception.SellException;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -32,9 +33,9 @@ public class WechatController {
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (Exception e) {
-            log.error("");
-            new SellException(1,"");
+            log.error("【微信授权】code有误");
+            new SellException(ResultEnum.WECHAT_AUTHORIZE_FAIL);
         }
-        return "redirect:" + returnUrl + "openid=" +wxMpOAuth2AccessToken.getOpenId();
+        return "redirect:" + returnUrl + "?openid=" +wxMpOAuth2AccessToken.getOpenId();
     }
 }
