@@ -22,7 +22,7 @@ public class WechatController {
 
     @GetMapping("/authorize")
     public String authorize(String returnUrl) {
-        String url = "http://sell.com/sell/wechat/userInfo";
+        String url = "http://192.168.42.1:8080/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_BASE, returnUrl);
         return "redirect:" + redirectUrl;
     }
