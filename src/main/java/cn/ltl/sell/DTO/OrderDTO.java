@@ -3,7 +3,9 @@ package cn.ltl.sell.DTO;
 import cn.ltl.sell.dataobject.OrderDetail;
 import cn.ltl.sell.enums.OrderStatusEnum;
 import cn.ltl.sell.enums.PayStatusEnum;
+import cn.ltl.sell.util.EnumUtil;
 import cn.ltl.sell.util.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
@@ -26,4 +28,14 @@ public class OrderDTO {
     @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
     private List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getMessage(payStatus, PayStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getMessage(orderStatus, OrderStatusEnum.class);
+    }
 }

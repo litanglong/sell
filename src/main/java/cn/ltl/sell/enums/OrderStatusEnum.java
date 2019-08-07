@@ -1,6 +1,6 @@
 package cn.ltl.sell.enums;
 
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements CodeEnum {
     NEW(0, "新下单"),
     FINISH(1, "完结"),
     CANCEL(2 ,"取消");

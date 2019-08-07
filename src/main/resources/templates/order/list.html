@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>订单列表</title>
+</head>
+<body>
+<h1>订单列表</h1>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">订单ID</th>
+            <th scope="col">买家姓名</th>
+            <th scope="col">买家号码</th>
+            <th scope="col">收货地址</th>
+            <th scope="col">订单金额</th>
+            <th scope="col">订单状态</th>
+            <th scope="col">支付状态</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list orderDTOPage.content as orderDTO>
+        <tr>
+            <th scope="row">${orderDTO_index}</th>
+            <td>${orderDTO.orderId}</td>
+            <td>${orderDTO.buyerName}</td>
+            <td>${orderDTO.buyerPhone}</td>
+            <td>${orderDTO.buyerAddress}</td>
+            <td>${orderDTO.orderAmount}</td>
+            <td>${orderDTO.orderStatusEnum.message}</td>
+            <td>${orderDTO.payStatusEnum.message}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm">详情</button>
+                <button type="button" class="btn btn-danger btn-sm">取消</button>
+            </td>
+        </tr>
+        </#list>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <#if currentPage lte 1>
+            <li class="page-item disabled">
+            <#else>
+            <li class="page-item">
+            </#if>
+            <a class="page-link" href="list?page=${currentPage-1}&size=10" tabindex="-1"><</a>
+            </li>
+            <#list 1..orderDTOPage.totalPages as index>
+            <#if currentPage == index>
+            <li class="page-item active">
+            <#else>
+            <li class="page-item">
+            </#if>
+                <a class="page-link" href="list?page=${index}&size=10">${index}</a>
+            </li>
+            </#list>
+            <#if currentPage gte orderDTOPage.totalPages>
+            <li class="page-item disabled">
+            <#else>
+            <li class="page-item">
+            </#if>
+                <a class="page-link" href="list?page=${currentPage+1}&size=10">></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
