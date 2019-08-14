@@ -41,69 +41,61 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">订单列表</h3>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">订单ID</th>
-                        <th scope="col">买家姓名</th>
-                        <th scope="col">买家号码</th>
-                        <th scope="col">收货地址</th>
-                        <th scope="col">订单金额</th>
-                        <th scope="col">订单状态</th>
-                        <th scope="col">支付状态</th>
-                        <th scope="col">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#list orderDTOPage.content as orderDTO>
-                    <tr>
-                        <th scope="row">${orderDTO_index}</th>
-                        <td>${orderDTO.orderId}</td>
-                        <td>${orderDTO.buyerName}</td>
-                        <td>${orderDTO.buyerPhone}</td>
-                        <td>${orderDTO.buyerAddress}</td>
-                        <td>${orderDTO.orderAmount}</td>
-                        <td>${orderDTO.orderStatusEnum.message}</td>
-                        <td>${orderDTO.payStatusEnum.message}</td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" href="${orderDTO.orderId}">详情</a>
+                <section class="invoice">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h2 class="page-header"><i class="fa fa-globe"></i> Vali Inc</h2>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-right">Date: 01/01/2016</h5>
+                        </div>
+                    </div>
+                    <div class="row invoice-info">
+                        <div class="col-4">From
+                            <address><strong>Vali Inc.</strong><br>518 Akshar Avenue<br>Gandhi Marg<br>New Delhi<br>Email: hello@vali.com</address>
+                        </div>
+                        <div class="col-4">To
+                            <address><strong>${orderDTO.buyerName}</strong><br>${orderDTO.buyerAddress}<br>China<br>Phone: ${orderDTO.buyerPhone}<br>Email: john.doe@example.com</address>
+                        </div>
+                        <div class="col-4"><b>Invoice #007612</b><br><br><b>Order ID:</b> ${orderDTO.orderId}<br><b>Payment Due:</b> 2/22/2014<br><b>Account:</b> ${orderDTO.orderAmount}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Qty</th>
+                                    <th>Product</th>
+                                    <th>Serial #</th>
+                                    <th>Description</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#list orderDTO.orderDetailList as orderDetail>
+                                <tr>
+                                    <td>1</td>
+                                    <td>${orderDetail.productName}</td>
+                                    <td>${orderDetail.productQuantity}</td>
+                                    <td>El snort testosterone trophy driving gloves handsome</td>
+                                    <td>$${orderDetail.productQuantity*orderDetail.productPrice}</td>
+                                </tr>
+                                </#list>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row d-print-none mt-2">
+                        <div class="col-12 text-right">
                             <#if orderDTO.orderStatus == 0>
-                            <a class="btn btn-danger btn-sm" onclick="return confirm('确认取消吗?')" href="cancel?orderId=${orderDTO.orderId}">取消</a>
+                            <a class="btn btn-success" href="finish?orderId=${orderDTO.orderId}">完结订单</a>
                         </#if>
-                        </td>
-                    </tr>
-                    </#list>
-                    </tbody>
-                </table>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <#if currentPage lte 1>
-                        <li class="page-item disabled">
-                            <#else>
-                        <li class="page-item">
-                        </#if>
-                        <a class="page-link" href="list?page=${currentPage-1}&size=10" tabindex="-1"><</a>
-                        </li>
-                        <#list 1..orderDTOPage.totalPages as index>
-                        <#if currentPage == index>
-                        <li class="page-item active">
-                            <#else>
-                        <li class="page-item">
-                        </#if>
-                        <a class="page-link" href="list?page=${index}&size=10">${index}</a>
-                        </li>
-                    </#list>
-                    <#if currentPage gte orderDTOPage.totalPages>
-                    <li class="page-item disabled">
-                        <#else>
-                    <li class="page-item">
+                        <#if orderDTO.orderStatus == 0>
+                        <a class="btn btn-danger" onclick="return confirm('确认取消吗?')" href="cancel?orderId=${orderDTO.orderId}">取消订单</a>
                     </#if>
-                    <a class="page-link" href="list?page=${currentPage+1}&size=10">></a>
-                    </li>
-                    </ul>
-                </nav>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -177,3 +169,4 @@
 </script>
 </body>
 </html>
+
