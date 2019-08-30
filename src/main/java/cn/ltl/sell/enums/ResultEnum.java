@@ -11,7 +11,8 @@ public enum ResultEnum {
     PARAM_ERROR(17, "参数错误"),
     CART_EMPTY(18, "购物车为空"),
     ORDER_OWNER_ERROR(19, "订单openid不一致"),
-    WECHAT_AUTHORIZE_FAIL(20, "微信授权失败");
+    WECHAT_AUTHORIZE_FAIL(20, "微信授权失败"),
+    PRODUCT_STATUS_ERROR(20, "商品状态不正确");
 
 
     private Integer code;

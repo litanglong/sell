@@ -20,4 +20,7 @@ public interface ProductService {
     void increaseStock(List<CartDTO> cartDTO);
     void decreaseStock(List<CartDTO> cartDTO);
 
+    void onSale(String productId);
+    void offShelves(String productId);
+
 }

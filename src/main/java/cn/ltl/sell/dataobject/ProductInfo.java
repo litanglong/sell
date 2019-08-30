@@ -1,5 +1,6 @@
 package cn.ltl.sell.dataobject;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @DynamicUpdate
+@DynamicInsert
 public class ProductInfo {
 
     @Id
