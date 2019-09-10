@@ -11,8 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -44,9 +46,12 @@ public class SellerProductController {
     }
 
     @PostMapping("/save")
-    public String save(Model model, ProductInfo productInfo) {
+    public String save(Model model, @Valid ProductInfo productInfo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("msg", bindingResult.getFieldError().getDefaultMessage());
+            return "redirect:error";
+        }
         productService.save(productInfo);
-        model.addAttribute("productInfo", productInfo);
         return "redirect:list";
     }
 

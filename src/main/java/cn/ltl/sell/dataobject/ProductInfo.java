@@ -2,6 +2,7 @@ package cn.ltl.sell.dataobject;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,7 +30,9 @@ public class ProductInfo {
     private Integer productStatus;
     /** 类目编号 */
     private Integer categoryType;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public String getProductId() {

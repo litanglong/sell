@@ -45,13 +45,16 @@
                 <div class="row">
                     <div class="col-lg-12">
                             <input type="hidden" name="productId" value="${productInfo.productId}">
+                            <input type="hidden" name="createTime" value="${productInfo.createTime}">
+                            <input type="hidden" name="updateTime" value="${productInfo.updateTime}">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">商品名称</label>
                                 <input name="productName" value="${productInfo.productName}" class="form-control" id="exampleInputEmail1" type="text" aria-describedby="emailHelp" placeholder="Enter email"><small class="form-text text-muted" id="emailHelp">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
                                 <label for="productIcon">商品图片</label>
-                                <input name="productIcon" class="form-control-file" id="productIcon" type="file" aria-describedby="fileHelp"><small class="form-text text-muted" id="fileHelp">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                                <img src="${productInfo.productIcon}" alt="">
+                                <input name="productIcon" value="${productInfo.productIcon}" class="form-control" id="productIcon" type="text" placeholder="Password">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">商品价格</label>
@@ -77,12 +80,12 @@
                                 <label>商品状态</label>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" id="optionsRadios1" type="radio" name="optionsRadios" value="option1" checked="">下架
+                                        <input class="form-check-input" id="optionsRadios1" type="radio" name="productStatus" value="0" ${(productInfo.productStatus==0)?string('checked','')}>下架
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" id="optionsRadios2" type="radio" name="optionsRadios" value="option2">上架
+                                        <input class="form-check-input" id="optionsRadios2" type="radio" name="productStatus" value="1" ${(productInfo.productStatus==1)?string('checked','')}>上架
                                     </label>
                                 </div>
                             </fieldset>

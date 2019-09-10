@@ -81,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
         if(productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_FOUND);
         }
-        if(!ProductStatusEnum.DOWN.equals(productInfo.getProductStatus())) {
+        if(!ProductStatusEnum.DOWN.getCode().equals(productInfo.getProductStatus())) {
             throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
         if(productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_FOUND);
         }
-        if(!ProductStatusEnum.UP.equals(productInfo.getProductStatus())) {
+        if(!ProductStatusEnum.UP.getCode().equals(productInfo.getProductStatus())) {
             throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
