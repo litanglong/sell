@@ -42,7 +42,7 @@ public class SellerCategoryController {
     public String save(Model model, @Valid ProductCategory productCategory, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("msg", bindingResult.getFieldError().getDefaultMessage());
-            return "redirect:error";
+            return "error";
         }
         categoryService.save(productCategory);
         return "redirect:list";
