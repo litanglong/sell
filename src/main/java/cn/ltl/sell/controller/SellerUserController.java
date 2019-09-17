@@ -2,6 +2,7 @@ package cn.ltl.sell.controller;
 
 import cn.ltl.sell.dataobject.SellerInfo;
 import cn.ltl.sell.service.SellerService;
+import cn.ltl.sell.service.WebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -70,4 +72,5 @@ public class SellerUserController {
         }
         return "page-login";
     }
+
 }
