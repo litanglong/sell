@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ltl.sell.mapper.ProductCategoryMapper">
+  <resultMap id="BaseResultMap" type="cn.ltl.sell.dataobject.ProductCategory">
+    <id column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="category_type" jdbcType="INTEGER" property="categoryType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="category_id" keyProperty="categoryId" parameterType="cn.ltl.sell.dataobject.ProductCategory" useGeneratedKeys="true">
+    insert into product_category (category_name, category_type, create_time, 
+      update_time)
+    values (#{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.ltl.sell.dataobject.ProductCategory">
+    update product_category
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      category_type = #{categoryType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select category_id, category_name, category_type, create_time, update_time
+    from product_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select category_id, category_name, category_type, create_time, update_time
+    from product_category
+  </select>
+</mapper>

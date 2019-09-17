@@ -1,0 +1,43 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--引入配置文件-->
+    <properties resource="application.yml"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 注释 -->
+        <commentGenerator >
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+
+        <!--配置数据库-->
+        <jdbcConnection driverClass="${driver-class-name}"
+                        connectionURL="${url}"
+                        userId="${username}"
+                        password="${password}">
+        </jdbcConnection>
+
+        <!--model文件保存路径-->
+        <javaModelGenerator targetPackage="cn.ltl.sell.dataobject"
+                            targetProject="src/main/java"/>
+
+        <!--mapper.xml文件保存路径-->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources"/>
+
+        <!--mapper文件保存路径-->
+        <javaClientGenerator targetPackage="cn.ltl.sell.mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!--表名-->
+        <table tableName="product_category">
+            <generatedKey column="category_id" sqlStatement="JDBC"/>
+        </table>
+    </context>
+</generatorConfiguration>
