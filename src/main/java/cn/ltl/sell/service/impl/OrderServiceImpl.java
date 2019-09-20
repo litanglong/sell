@@ -17,6 +17,7 @@ import cn.ltl.sell.service.OrderService;
 import cn.ltl.sell.service.ProductService;
 import cn.ltl.sell.service.WebSocket;
 import cn.ltl.sell.util.KeyUtil;
+import cn.ltl.sell.util.RedisLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,18 @@ public class OrderServiceImpl implements OrderService {
     private ProductService productService;
     @Autowired
     private WebSocket webSocket;
+    @Autowired
+    private RedisLock redisLock;
 
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
+        long timeMillis = System.currentTimeMillis() + 10 * 1000;
+
+        //分布式锁
+        if (!redisLock.lock("order", String.valueOf(timeMillis))) {
+            throw new RuntimeException("下单失败");
+        }
         //查询商品
         String orderId = KeyUtil.getUniqueKey();
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
@@ -80,6 +89,8 @@ public class OrderServiceImpl implements OrderService {
         productService.decreaseStock(cartDTOList);
 
         webSocket.sendMessage("你有一个新的订单！");
+        //解锁
+        redisLock.unlock("order", String.valueOf(timeMillis));
         return orderDTO;
     }
 

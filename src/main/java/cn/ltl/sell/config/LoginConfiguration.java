@@ -17,7 +17,7 @@ public class LoginConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         interceptorRegistry.addInterceptor(loginInterceptor())
-        .addPathPatterns("/**")
+        .addPathPatterns("/seller/**")
         .excludePathPatterns("/")
         .excludePathPatterns("/login");
     }
