@@ -15,6 +15,10 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  mail:
+    host: smtp.qq.com
+    username: 605325132@qq.com
+    password: faumwtwbxzhjbaji
 server:
   context-path: /sell
 wechat:
