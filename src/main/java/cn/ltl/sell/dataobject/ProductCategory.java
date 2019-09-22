@@ -6,11 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @DynamicUpdate
-public class ProductCategory {
+public class ProductCategory implements Serializable {
 
     @Id
     @GeneratedValue

@@ -7,6 +7,7 @@ import cn.ltl.sell.service.CategoryService;
 import cn.ltl.sell.service.ProductService;
 import cn.ltl.sell.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class SellerProductController {
     }
 
     @PostMapping("/save")
+    @CacheEvict(cacheNames = "product", key = "list")
     public String save(Model model, @Valid ProductInfo productInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("msg", bindingResult.getFieldError().getDefaultMessage());

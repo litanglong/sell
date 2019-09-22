@@ -1,6 +1,10 @@
 package cn.ltl.sell.VO;
 
-public class ResultVO<T> {
+import java.io.Serializable;
+
+public class ResultVO<T> implements Serializable {
+
+
     private Integer code;
     private String msg;
     private T data;
