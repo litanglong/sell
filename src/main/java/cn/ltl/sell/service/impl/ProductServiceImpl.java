@@ -7,7 +7,10 @@ import cn.ltl.sell.enums.ResultEnum;
 import cn.ltl.sell.exception.SellException;
 import cn.ltl.sell.repository.ProductInfoRepository;
 import cn.ltl.sell.service.ProductService;
+import cn.ltl.sell.util.RedisLock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,8 +23,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductInfoRepository repository;
+    @Autowired
+    private RedisLock redisLock;
 
     @Override
+    @Cacheable(value = "product", key = "2")
     public ProductInfo findOne(String productId) {
         return repository.findOne(productId);
     }
@@ -37,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CachePut(value = "product", key = "2")
     public ProductInfo save(ProductInfo productInfo) {
         return repository.save(productInfo);
     }
@@ -59,6 +66,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void decreaseStock(List<CartDTO> cartDTO) {
+        //分布式锁
+        long timeMillis = System.currentTimeMillis() + 10 * 1000;
+        if (!redisLock.lock("order", String.valueOf(timeMillis))) {
+            throw new RuntimeException("下单失败");
+        }
         for (CartDTO cart : cartDTO) {
             ProductInfo productInfo = repository.findOne(cart.getProductId());
             if(productInfo == null) {
@@ -71,7 +83,8 @@ public class ProductServiceImpl implements ProductService {
             productInfo.setProductStock(result);
             repository.save(productInfo);
         }
-
+        //解锁
+        redisLock.unlock("order", String.valueOf(timeMillis));
     }
 
     @Override

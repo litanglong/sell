@@ -53,12 +53,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
-        long timeMillis = System.currentTimeMillis() + 10 * 1000;
 
-        //分布式锁
-        if (!redisLock.lock("order", String.valueOf(timeMillis))) {
-            throw new RuntimeException("下单失败");
-        }
+
         //查询商品
         String orderId = KeyUtil.getUniqueKey();
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
@@ -89,8 +85,7 @@ public class OrderServiceImpl implements OrderService {
         productService.decreaseStock(cartDTOList);
 
         webSocket.sendMessage("你有一个新的订单！");
-        //解锁
-        redisLock.unlock("order", String.valueOf(timeMillis));
+
         return orderDTO;
     }
 

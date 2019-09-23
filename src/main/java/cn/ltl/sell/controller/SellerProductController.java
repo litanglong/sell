@@ -47,7 +47,7 @@ public class SellerProductController {
     }
 
     @PostMapping("/save")
-    @CacheEvict(cacheNames = "product", key = "list")
+    @CacheEvict(cacheNames = "product", key = "1")
     public String save(Model model, @Valid ProductInfo productInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("msg", bindingResult.getFieldError().getDefaultMessage());
